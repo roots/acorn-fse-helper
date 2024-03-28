@@ -1,0 +1,32 @@
+{
+  "name": "roots/acorn-fse-helper",
+  "type": "package",
+  "description": "Bootstrap FSE support in Acorn-based WordPress themes.",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Brandon Nifong",
+      "email": "brandon@tendency.me",
+      "homepage": "https://github.com/log1x"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Roots\\AcornFseHelper\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=8.1"
+  },
+  "require-dev": {
+    "laravel/pint": "^1.15",
+    "roots/acorn": "^4.0"
+  },
+  "extra": {
+    "acorn": {
+      "providers": [
+        "Roots\\AcornFseHelper\\AcornFseHelperServiceProvider"
+      ]
+    }
+  }
+}
