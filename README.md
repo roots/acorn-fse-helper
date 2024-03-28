@@ -39,7 +39,7 @@ To assist with hybrid theme development, Acorn FSE Helper includes a few useful 
 
 #### `@blocks`
 
-The `@blocks` directive allows you to render raw block markup inside of a view using [`do_blocks()`](https://developer.wordpress.org/reference/functions/do_blocks/).
+The `@blocks` directive allows you to render raw block markup inside of a view using [`do_blocks()`](https://developer.wordpress.org/reference/functions/do_blocks/):
 
 ```php
 @blocks
@@ -51,7 +51,7 @@ The `@blocks` directive allows you to render raw block markup inside of a view u
 
 #### `@blockpart`
 
-The `@blockpart` directive provides a convenient way to render block template parts inside of your views using [`block_template_part`](https://developer.wordpress.org/reference/functions/block_template_part/).
+The `@blockpart` directive provides a convenient way to render block template parts inside of your views using [`block_template_part`](https://developer.wordpress.org/reference/functions/block_template_part/):
 
 ```php
 @blockpart('header')
