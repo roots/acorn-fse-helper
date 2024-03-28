@@ -9,7 +9,7 @@ Acorn FSE Helper provides an easy way to initialize and work with block template
 ## Requirements
 
 - [PHP](https://secure.php.net/manual/en/install.php) >= 8.1
-- [Acorn](https://github.com/roots/acorn) >= 4.0
+- [Acorn](https://github.com/roots/acorn) >= 4.1
 
 ## Installation
 
