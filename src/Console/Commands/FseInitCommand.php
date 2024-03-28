@@ -30,12 +30,17 @@ class FseInitCommand extends Command
     protected $description = 'Initialize full-site editing support in the theme.';
 
     /**
+     * The required Acorn version.
+     */
+    protected string $version = '4.1.1';
+
+    /**
      * Execute the console command.
      */
     public function handle(): void
     {
         if (! $this->isValidAcornVersion()) {
-            $this->components->error('Full-site editing support requires <fg=red>Acorn 4.0</> or higher.');
+            $this->components->error("Full-site editing support requires <fg=red>Acorn {$this->version}</> or higher.");
 
             return;
         }
@@ -264,9 +269,13 @@ class FseInitCommand extends Command
     {
         $version = Str::of($this->getApplication()->getVersion())
             ->after(' ')
-            ->before('.')
+            ->before(' ')
             ->toString();
 
-        return version_compare($version, '4', '>=');
+        if (Str::contains($version, 'dev')) {
+            return true;
+        }
+
+        return version_compare($version, $this->version, '>=');
     }
 }
