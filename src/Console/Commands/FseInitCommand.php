@@ -34,7 +34,7 @@ class FseInitCommand extends Command
     /**
      * The required Acorn version.
      */
-    protected string $version = '4.1.2';
+    protected string $version = '4.2.0';
 
     /**
      * The editor style token.
