@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Roots\Acorn\Application;
 
 use function Laravel\Prompts\confirm;
 
@@ -18,8 +19,9 @@ class FseInitCommand extends Command
      */
     protected $signature = 'fse:init
                             {--all : Publish all stubs.}
-                            {--with-templates : Publish example block template and part stubs.}
-                            {--with-patterns : Publish example block pattern stubs.}
+                            {--assets : Add theme assets to the editor styles.}
+                            {--templates : Publish example block template and part stubs.}
+                            {--patterns : Publish example block pattern stubs.}
                             {--force : Overwrite any existing files.}';
 
     /**
@@ -32,7 +34,12 @@ class FseInitCommand extends Command
     /**
      * The required Acorn version.
      */
-    protected string $version = '4.1.1';
+    protected string $version = '4.1.2';
+
+    /**
+     * The editor style token.
+     */
+    protected string $styleToken = '}, 100);';
 
     /**
      * Execute the console command.
@@ -49,12 +56,16 @@ class FseInitCommand extends Command
 
         $this->task('Enabling <fg=blue>theme support</> for block templates', $this->handleSupport());
 
+        if ($this->shouldHandleStyles()) {
+            $this->task('Adding <fg=blue>theme assets</> to the editor styles', $this->handleStyles());
+        }
+
         if ($this->shouldPublishTemplates()) {
-            $this->task('Publishing the example block <fg=blue>template</> and <fg=blue>part</> stubs', $this->publishTemplates());
+            $this->task('Publishing the <fg=blue>example</> block <fg=blue>template</> and <fg=blue>part</> stubs', $this->publishTemplates());
         }
 
         if ($this->shouldPublishPatterns()) {
-            $this->task('Publishing the example block <fg=blue>pattern</> stubs', $this->publishPatterns());
+            $this->task('Publishing the <fg=blue>example</> block <fg=blue>pattern</> stubs', $this->publishPatterns());
         }
 
         $this->components->info('Full-site editing support has been <fg=blue>added</> to the theme.');
@@ -104,6 +115,52 @@ class FseInitCommand extends Command
     }
 
     /**
+     * Handle editor styles.
+     */
+    protected function handleStyles(): bool
+    {
+        return $this->handleSageStyles() || $this->handleRadicleStyles();
+    }
+
+    /**
+     * Handle editor styles for Sage.
+     */
+    protected function handleSageStyles(): bool
+    {
+        if (
+            ! file_exists($path = app_path('setup.php')) ||
+            $this->hasEditorStyles($contents = file_get_contents($path))
+        ) {
+            return false;
+        }
+
+        $render = $this->renderEditorStyles();
+
+        $contents = Str::replaceLast($this->styleToken, "{$this->styleToken}\n\n{$render}", $contents);
+
+        return file_put_contents($path, $contents) !== false;
+    }
+
+    /**
+     * Handle editor styles for Radicle.
+     */
+    protected function handleRadicleStyles(): bool
+    {
+        if (
+            ! file_exists($path = app_path('Providers/AssetsServiceProvider.php')) ||
+            $this->hasEditorStyles($contents = file_get_contents($path))
+        ) {
+            return false;
+        }
+
+        $render = $this->renderEditorStyles(2);
+
+        $contents = Str::replaceLast($this->styleToken, "{$this->styleToken}\n\n{$render}", $contents);
+
+        return file_put_contents($path, $contents) !== false;
+    }
+
+    /**
      * Publish the block template stubs.
      */
     protected function publishTemplates(): bool
@@ -130,12 +187,22 @@ class FseInitCommand extends Command
     }
 
     /**
+     * Determine if the styles should be handled.
+     */
+    protected function shouldHandleStyles(): bool
+    {
+        return $this->option('all')
+            || $this->option('assets')
+            || confirm('<fg=white>Add</> <fg=blue>theme assets</> to the <fg=blue>editor styles</>?', default: true);
+    }
+
+    /**
      * Determine if the templates should be published.
      */
     protected function shouldPublishTemplates(): bool
     {
         return $this->option('all')
-            || $this->option('with-templates')
+            || $this->option('templates')
             || confirm('<fg=blue>Publish</> example block <fg=blue>part</> and <fg=blue>template</> stubs?', default: true);
     }
 
@@ -169,7 +236,7 @@ class FseInitCommand extends Command
     protected function shouldPublishPatterns(): bool
     {
         return $this->option('all')
-            || $this->option('with-patterns')
+            || $this->option('patterns')
             || confirm('<fg=blue>Publish</> example block <fg=blue>pattern</> stubs?', default: true);
     }
 
@@ -203,6 +270,28 @@ class FseInitCommand extends Command
             : '<fg=yellow;options=bold>SKIPPED</>';
 
         $this->components->twoColumnDetail($message, $status);
+    }
+
+    /**
+     * Render the editor styles.
+     */
+    protected function renderEditorStyles(int $indent = 0): string
+    {
+        $view = trim(
+            view('acorn-fse-helper::editor-style')->render()
+        );
+
+        $indent = str_repeat(' ', $indent * 4);
+
+        return implode("\n", array_map(fn ($line) => "{$indent}{$line}", explode("\n", $view)));
+    }
+
+    /**
+     * Determine if the value already contains an editor style.
+     */
+    protected function hasEditorStyles(string $value): bool
+    {
+        return Str::contains($value, "bundle('app')->editorStyles()");
     }
 
     /**
@@ -267,10 +356,7 @@ class FseInitCommand extends Command
      */
     protected function isValidAcornVersion(): bool
     {
-        $version = Str::of($this->getApplication()->getVersion())
-            ->after(' ')
-            ->before(' ')
-            ->toString();
+        $version = Application::VERSION;
 
         if (Str::contains($version, 'dev')) {
             return true;
