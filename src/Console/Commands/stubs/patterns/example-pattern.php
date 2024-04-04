@@ -8,7 +8,7 @@
 ?>
 <!-- wp:group {"templateLock":"all","align":"full"} -->
 <div class="wp-block-group alignfull">
-  <!-- wp:heading -->
+  <!-- wp:heading {"level":3} -->
   <h3>Some heading that belongs to this block pattern.</h3>
   <!-- /wp:heading -->
 
