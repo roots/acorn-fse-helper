@@ -52,6 +52,13 @@ class FseInitCommand extends Command
             return;
         }
 
+        if (
+            $this->getLaravel()->isProduction() &&
+            ! confirm('<fg=white>You are currently in</> <fg=red;options=bold>Production</>. <fg=white>Do you still wish to continue?</>', default: false)
+        ) {
+            return;
+        }
+
         $this->components->info('Initializing <fg=blue>full-site editing</> support in the active theme.');
 
         $this->task('Enabling <fg=blue>theme support</> for block templates', $this->handleSupport());
