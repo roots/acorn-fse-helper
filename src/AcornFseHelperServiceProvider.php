@@ -14,7 +14,7 @@ class AcornFseHelperServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ($this->app->runningInConsole() && ! $this->app->isProduction()) {
+        if ($this->app->runningInConsole()) {
             $this->loadViewsFrom(__DIR__.'/../resources/views', 'acorn-fse-helper');
 
             $this->commands([
