@@ -103,7 +103,8 @@ class FseInitCommand extends Command
             return false;
         }
 
-        return $this->commentOut($path, "remove_theme_support('block-templates')");
+        return $this->commentOut($path, "remove_theme_support('block-templates')") &&
+            $this->commentOut($path, "add_theme_support('title-tag')");
     }
 
     /**
@@ -113,12 +114,16 @@ class FseInitCommand extends Command
     {
         if (
             ! file_exists($path = config_path('theme.php')) ||
-            ! in_array('block-templates', config('theme.remove', []))
+            (
+                ! in_array('block-templates', config('theme.remove', [])) &&
+                ! in_array('title-tag', config('theme.support', []))
+            )
         ) {
             return false;
         }
 
-        return $this->commentOut($path, "'block-templates'");
+        return $this->commentOut($path, "'block-templates'") &&
+            $this->commentOut($path, "'title-tag'");
     }
 
     /**
