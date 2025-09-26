@@ -17,10 +17,30 @@ class AcornFseHelperServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->loadViewsFrom(__DIR__.'/../resources/views', 'acorn-fse-helper');
 
+            $this->publishes([
+                __DIR__.'/../config/fse.php' => config_path('fse.php'),
+            ], 'fse-config');
+
             $this->commands([
                 Console\Commands\FseInitCommand::class,
             ]);
         }
+
+        $this->mergeConfigFrom(__DIR__.'/../config/fse.php', 'fse');
+
+        // Auto-inject Vite assets for FSE themes
+        add_action('wp_head', function () {
+            if (! config('fse.vite_enabled')) {
+                return;
+            }
+
+            $entryPoints = apply_filters('acorn/fse/vite_entrypoints', [
+                'resources/css/app.css',
+                'resources/js/app.js',
+            ]);
+
+            echo \Illuminate\Support\Facades\Vite::withEntryPoints($entryPoints)->toHtml();
+        });
 
         Blade::directive('blocks', fn () => '<?php ob_start(); ?>');
         Blade::directive('endblocks', fn () => '<?php echo do_blocks(ob_get_clean()); ?>');

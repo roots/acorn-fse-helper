@@ -63,6 +63,39 @@ To render multiple template parts at once, you may pass an array in the order yo
 @blockpart(['header', 'footer'])
 ```
 
+### Vite Asset Integration
+
+Acorn FSE Helper can automatically inject Vite assets (CSS and JavaScript) into the `<head>` of your FSE theme.
+
+To enable this feature:
+
+1. Publish the configuration file:
+   ```bash
+   $ wp acorn vendor:publish --tag=fse-config
+   ```
+
+2. Enable Vite asset injection in `config/fse.php`:
+   ```php
+   'vite_enabled' => true,
+   ```
+
+By default, it includes:
+- `resources/css/app.css`
+- `resources/js/app.js`
+
+You can customize the entry points using the `acorn/fse/vite_entrypoints` filter:
+
+```php
+add_filter('acorn/fse/vite_entrypoints', function ($entryPoints) {
+    return [
+        'resources/css/app.css',
+        'resources/css/editor.css',
+        'resources/js/app.js',
+        'resources/js/custom.js',
+    ];
+});
+```
+
 ## Bug Reports
 
 If you discover a bug in Acorn FSE Helper, please [open an issue](https://github.com/roots/acorn-fse-helper/issues).
