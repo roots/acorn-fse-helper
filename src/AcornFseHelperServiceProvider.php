@@ -27,7 +27,6 @@ class AcornFseHelperServiceProvider extends ServiceProvider
         }
 
         $this->mergeConfigFrom(__DIR__.'/../config/fse.php', 'fse');
-    }
 
         // Auto-inject Vite assets for FSE themes
         add_action('wp_head', function () {
