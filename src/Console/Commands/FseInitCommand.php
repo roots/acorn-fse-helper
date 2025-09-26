@@ -75,6 +75,7 @@ class FseInitCommand extends Command
             $this->task('Publishing the <fg=blue>example</> block <fg=blue>pattern</> stubs', $this->publishPatterns());
         }
 
+
         $this->components->info('Full-site editing support has been <fg=blue>added</> to the theme.');
 
         if (! $this->hasThemeSupport()) {
@@ -251,6 +252,7 @@ class FseInitCommand extends Command
             || $this->option('patterns')
             || confirm('<fg=blue>Publish</> example block <fg=blue>pattern</> stubs?', default: true);
     }
+
 
     /**
      * Handle content replacement patterns.

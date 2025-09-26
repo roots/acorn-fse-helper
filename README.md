@@ -65,8 +65,21 @@ To render multiple template parts at once, you may pass an array in the order yo
 
 ### Vite Asset Integration
 
-Acorn FSE Helper automatically injects Vite assets (CSS and JavaScript) into the `<head>` of your FSE theme. By default, it includes:
+Acorn FSE Helper can automatically inject Vite assets (CSS and JavaScript) into the `<head>` of your FSE theme.
 
+To enable this feature:
+
+1. Publish the configuration file:
+   ```bash
+   $ wp acorn vendor:publish --tag=fse-config
+   ```
+
+2. Enable Vite asset injection in `config/fse.php`:
+   ```php
+   'vite_enabled' => true,
+   ```
+
+By default, it includes:
 - `resources/css/app.css`
 - `resources/js/app.js`
 
