@@ -1,10 +1,16 @@
 # Acorn FSE Helper
 
 ![Latest Stable Version](https://img.shields.io/packagist/v/roots/acorn-fse-helper.svg?style=flat-square)
-![Total Downloads](https://img.shields.io/packagist/dt/roots/acorn-fse-helper.svg?style=flat-square)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/roots/acorn-fse-helper?label=downloads&colorB=2b3072&colorA=525ddc&style=flat-square)](https://packagist.org/packages/roots/acorn-fse-helper)
 ![Build Status](https://img.shields.io/github/actions/workflow/status/roots/acorn-fse-helper/main.yml?branch=main&style=flat-square)
+[![Follow Roots](https://img.shields.io/badge/follow%20@rootswp-1da1f2?logo=twitter&logoColor=ffffff&message=&style=flat-square)](https://twitter.com/rootswp)
+[![Sponsor Roots](https://img.shields.io/badge/sponsor%20roots-525ddc?logo=github&style=flat-square&logoColor=ffffff&message=)](https://github.com/sponsors/roots)
 
 Acorn FSE Helper provides an easy way to initialize and work with block templates in themes powered by Acorn.
+
+## Support us
+
+We're dedicated to pushing modern WordPress development forward through our open source projects, and we need your support to keep building. You can support our work by purchasing [Radicle](https://roots.io/radicle/), our recommended WordPress stack, or by [sponsoring us on GitHub](https://github.com/sponsors/roots). Every contribution directly helps us create better tools for the WordPress ecosystem.
 
 ## Requirements
 
@@ -96,14 +102,12 @@ add_filter('acorn/fse/vite_entrypoints', function ($entryPoints) {
 });
 ```
 
-## Bug Reports
+## Community
 
-If you discover a bug in Acorn FSE Helper, please [open an issue](https://github.com/roots/acorn-fse-helper/issues).
+Keep track of development and community news.
 
-## Contributing
-
-Contributing whether it be through PRs, reporting an issue, or suggesting an idea is encouraged and appreciated.
-
-## License
-
-Acorn FSE Helper is provided under the [MIT License](LICENSE.md).
+- Join us on Discord by [sponsoring us on GitHub](https://github.com/sponsors/roots)
+- Join us on [Roots Discourse](https://discourse.roots.io/)
+- Follow [@rootswp on Twitter](https://twitter.com/rootswp)
+- Follow the [Roots Blog](https://roots.io/blog/)
+- Subscribe to the [Roots Newsletter](https://roots.io/subscribe/)
