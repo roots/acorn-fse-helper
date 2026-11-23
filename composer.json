@@ -19,7 +19,7 @@
     "php": ">=8.1"
   },
   "require-dev": {
-    "laravel/pint": "^1.15",
+    "laravel/pint": "1.30.4",
     "roots/acorn": "^4.2"
   },
   "extra": {
