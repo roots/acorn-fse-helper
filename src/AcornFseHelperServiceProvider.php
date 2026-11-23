@@ -3,6 +3,7 @@
 namespace Roots\AcornFseHelper;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
 class AcornFseHelperServiceProvider extends ServiceProvider
@@ -39,7 +40,7 @@ class AcornFseHelperServiceProvider extends ServiceProvider
                 'resources/js/app.js',
             ]);
 
-            echo \Illuminate\Support\Facades\Vite::withEntryPoints($entryPoints)->toHtml();
+            echo Vite::withEntryPoints($entryPoints)->toHtml();
         });
 
         Blade::directive('blocks', fn () => '<?php ob_start(); ?>');
